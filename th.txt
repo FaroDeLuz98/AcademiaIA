@@ -1,0 +1,15 @@
+function theoryHTML(course, block) {
+  const vm = getTheoryViewModel(block, course.methodology);
+  return `
+    <article class="theory">
+      <h2>${escapeHtml(vm.title)}</h2>
+      ${vm.paragraphs.map((p) => `<p>${escapeHtml(p)}</p>`).join("")}
+      ${vm.examples.map((ex) => `<div class="callout"><strong>${escapeHtml(ex.title)}</strong><p>${escapeHtml(ex.body)}</p></div>`).join("")}
+      ${vm.cases.map((c) => `<div class="callout case"><strong>${escapeHtml(c.title)}</strong><p>${escapeHtml(c.body)}</p></div>`).join("")}
+      ${vm.formulas.map((f) => `<div class="formula"><strong>${escapeHtml(f.name)}</strong><pre>${escapeHtml(f.expression)}</pre><p class="muted">${escapeHtml(f.note || "")}</p></div>`).join("")}
+      ${vm.procedure.length ? `<ol class="procedure">${vm.procedure.map((s) => `<li><strong>${escapeHtml(s.step)}</strong> ${escapeHtml(s.detail)}</li>`).join("")}</ol>` : ""}
+      ${vm.code ? `<pre class="code-block">${escapeHtml(vm.code.source)}</pre>
+        <ul class="walkthrough">${vm.code.walkthrough.map((w) => `<li><code>L${w.line}</code> ${escapeHtml(w.comment)}</li>`).join("")}</ul>` : ""}
+      <button class="primary" id="toQuizBtn">Ir al quiz guiado</button>
+    </article>`;
+}
